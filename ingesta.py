@@ -15,9 +15,11 @@ class DynamoDBExporter:
         """
         self.dynamodb = boto3.resource('dynamodb', 'us-east-1')
         self.table_names = table_names
+        self.s3 = boto3.client('s3', 'us-east-1')
+        self.bucket_name = "spotify-data-dev"
 
         
-        os.makedirs('/data', exist_ok=True)
+        self.output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 
     def scan_table(self, table_name: str) -> List[Dict[str, Any]]:
         """
@@ -62,6 +64,21 @@ class DynamoDBExporter:
         df = pd.json_normalize(items)
         return df
 
+    def upload_to_s3(self, file_path: str, filename: str):
+        """
+        Sube archivo a S3
+        
+        Args:
+            file_path: Ruta local del archivo
+            filename: Nombre del archivo
+        """
+        try:
+            s3_key = f"users/{filename}"
+            self.s3.upload_file(file_path, self.bucket_name, s3_key)
+            print(f"Archivo subido exitosamente a s3://{self.bucket_name}/{s3_key}")
+        except Exception as e:
+            print(f"Error subiendo archivo a S3: {str(e)}")
+
     def export_data(self, df: pd.DataFrame, table_name: str):
         """
         Exporta data normalizada a archivo '.csv'
@@ -72,13 +89,15 @@ class DynamoDBExporter:
         """
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
         filename = f"{table_name}_{timestamp}"
+        local_path = os.path.join(self.output_dir, filename)
         
         try:
-            output_path = os.path.join(self.output_dir, f"{filename}.csv")
-            df.to_csv(output_path, index=False)
+            df.to_csv(local_path, index=False)
                 
-            print(f"Se exportó {table_name} a {output_path}")
+            print(f"Se exportó {table_name} a {local_path}")
             
+            self.upload_to_s3(local_path, filename)
+
         except Exception as e:
             print(f"Error exportando {table_name}: {str(e)}")
 

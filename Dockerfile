@@ -9,10 +9,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code
-COPY dynamodb_export.py .
+COPY ingesta.py .
 
 RUN mkdir /data
 
 
 # Run script
-CMD ["python", "dynamodb_export.py"]
+CMD ["python", "ingesta.py"]
