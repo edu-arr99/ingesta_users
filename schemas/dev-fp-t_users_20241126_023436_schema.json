@@ -1,0 +1,34 @@
+[
+  {
+    "Name": "city",
+    "Type": "string"
+  },
+  {
+    "Name": "password",
+    "Type": "int"
+  },
+  {
+    "Name": "created_at",
+    "Type": "string"
+  },
+  {
+    "Name": "email",
+    "Type": "string"
+  },
+  {
+    "Name": "country",
+    "Type": "string"
+  },
+  {
+    "Name": "name",
+    "Type": "string"
+  },
+  {
+    "Name": "user_name",
+    "Type": "string"
+  },
+  {
+    "Name": "age",
+    "Type": "int"
+  }
+]

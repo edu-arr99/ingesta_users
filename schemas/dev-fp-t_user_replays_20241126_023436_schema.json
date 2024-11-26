@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "song_id",
+    "Type": "string"
+  },
+  {
+    "Name": "replayed_at",
+    "Type": "string"
+  },
+  {
+    "Name": "email",
+    "Type": "string"
+  },
+  {
+    "Name": "song_title",
+    "Type": "string"
+  },
+  {
+    "Name": "user_email",
+    "Type": "string"
+  },
+  {
+    "Name": "replay_duration",
+    "Type": "int"
+  }
+]
