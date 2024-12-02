@@ -1,0 +1,1 @@
+# Carpeta para guardar la data csv generada 
